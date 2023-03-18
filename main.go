@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/gdsc-ys/21days-gin/controllers"
-	"github.com/gdsc-ys/21days-gin/database"
+	"github.com/yuljang/GSTEP-go/controllers"
+	"github.com/yuljang/GSTEP-go/database"
 )
 
 func main() {

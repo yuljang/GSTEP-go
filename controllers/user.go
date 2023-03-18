@@ -3,9 +3,9 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/gdsc-ys/21days-gin/database"
-	"github.com/gdsc-ys/21days-gin/models"
 	"github.com/gin-gonic/gin"
+	"github.com/yuljang/GSTEP-go/database"
+	"github.com/yuljang/GSTEP-go/models"
 )
 
 func CreateUser(c *gin.Context) {

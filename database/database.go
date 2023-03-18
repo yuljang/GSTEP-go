@@ -4,7 +4,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/gdsc-ys/21days-gin/models"
+	"github.com/yuljang/GSTEP-go/models"
 )
 
 var DB *gorm.DB
