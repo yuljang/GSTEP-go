@@ -10,7 +10,8 @@ type Marker struct {
 	Latitude  float64
 	Message   string
 	Address   string
-	IconID    int32
+	IconID    uint
+	UserID    uint
 }
 
 // maybe Longitude + Latitude is better candidate for PK

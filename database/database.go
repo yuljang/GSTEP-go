@@ -21,5 +21,7 @@ func Connect() {
 		panic(err)
 	}
 
+	DB.AutoMigrate(&models.Marker{})
+	DB.AutoMigrate(&models.Mission{})
 	DB.AutoMigrate(&models.User{})
 }
