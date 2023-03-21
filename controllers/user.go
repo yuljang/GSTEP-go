@@ -43,6 +43,7 @@ func UpdateUser(c *gin.Context) {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
+
 	if err := database.DB.First(&user, c.Param("id")).Error; err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
