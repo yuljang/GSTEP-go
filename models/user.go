@@ -13,5 +13,5 @@ type User struct {
 	Country  string
 	Level    uint
 	Marker   Marker
-	Mission  datatypes.JSON
+	Mission  datatypes.JSON // -2: not discovered, 0: discovered, 1~: countable mission, count number
 }

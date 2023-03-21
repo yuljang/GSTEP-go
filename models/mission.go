@@ -6,7 +6,9 @@ import (
 
 type Mission struct {
 	gorm.Model
-	Title   string
-	Content string
-	IconID  uint
+	Type         string
+	Title        string
+	Content      string
+	ShortContent string
+	IconID       uint
 }
