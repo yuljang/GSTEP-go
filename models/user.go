@@ -11,7 +11,8 @@ type User struct {
 	Nickname string
 	Image    string
 	Country  string
-	Level    uint
+	Step     int
+	Point    int
+	Progress datatypes.JSON // -2: not discovered, 0: discovered, 1~: countable mission, count number
 	Marker   Marker
-	Mission  datatypes.JSON // -2: not discovered, 0: discovered, 1~: countable mission, count number
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -47,6 +48,35 @@ func UpdateUser(c *gin.Context) {
 	if err := database.DB.First(&user, c.Param("id")).Error; err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
+	}
+
+	var progress map[string]int
+
+	json.Unmarshal([]byte(update.Progress), &progress)
+
+	if update.Progress != nil {
+		point := 0
+		step := 0
+
+		for _, value := range progress {
+			point += value + 2
+		}
+
+		switch {
+		case point < 5:
+			step = 0
+		case point < 10:
+			step = 1
+		case point < 25:
+			step = 2
+		case point < 60:
+			step = 3
+		default:
+			step = 4
+		}
+
+		update.Step = step
+		update.Point = point
 	}
 
 	database.DB.Model(&user).Updates(update)
