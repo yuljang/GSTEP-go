@@ -10,5 +10,5 @@ type Mission struct {
 	Title        string
 	Content      string
 	ShortContent string
-	IconID       uint
+	IconID       int
 }
