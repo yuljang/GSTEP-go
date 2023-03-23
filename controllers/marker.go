@@ -47,6 +47,17 @@ func ReadMarker(c *gin.Context) {
 	c.JSON(http.StatusOK, marker)
 }
 
+func ReadAllMarker(c *gin.Context) {
+	var markers []models.Marker
+
+	if err := database.DB.Find(&markers).Error; err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, markers)
+}
+
 func UpdateMarker(c *gin.Context) {
 	update := models.Marker{}
 	marker := models.Marker{}

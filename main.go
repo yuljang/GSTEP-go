@@ -23,6 +23,7 @@ func main() {
 	marker := router.Group("/marker")
 	{
 		marker.GET("/:id", controllers.ReadMarker)
+		marker.GET("/", controllers.ReadAllMarker)
 		marker.POST("/", controllers.CreateMarker)
 		marker.PUT("/:id", controllers.UpdateMarker)
 		marker.DELETE("/:id", controllers.DeleteMarker)
