@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yuljang/GSTEP-go/database"
 	"github.com/yuljang/GSTEP-go/models"
+	"gorm.io/datatypes"
 )
 
 func CreateUser(c *gin.Context) {
@@ -16,6 +17,8 @@ func CreateUser(c *gin.Context) {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
+
+	user.Progress = datatypes.JSON([]byte(`{}`))
 
 	if err := database.DB.Create(&user).Error; err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
