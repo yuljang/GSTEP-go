@@ -2,7 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/yuljang/GSTEP-go/database"
@@ -18,6 +21,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	user.Milestone = datatypes.JSON([]byte(fmt.Sprintf(`{"0": "%s"}`, time.Now().String())))
 	user.Progress = datatypes.JSON([]byte(`{}`))
 
 	if err := database.DB.Create(&user).Error; err != nil {
@@ -80,6 +84,22 @@ func UpdateUser(c *gin.Context) {
 
 		update.Step = step
 		update.Point = point
+
+		var milestone map[string]string
+
+		json.Unmarshal([]byte(user.Milestone), &milestone)
+
+		if _, exist := milestone[strconv.Itoa(step)]; !exist {
+			fmt.Println(strconv.Itoa(step))
+			milestone[strconv.Itoa(step)] = time.Now().String()
+		}
+
+		if milestone_str, err := json.Marshal(milestone); err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
+		} else {
+			update.Milestone = milestone_str
+		}
+
 	}
 
 	database.DB.Model(&user).Updates(update)
