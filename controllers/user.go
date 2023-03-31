@@ -61,45 +61,42 @@ func UpdateUser(c *gin.Context) {
 
 	json.Unmarshal([]byte(update.Progress), &progress)
 
-	if update.Progress != nil {
-		point := 0
-		step := 0
+	point := 0
+	step := 0
 
-		for _, value := range progress {
-			point += value + 2
-		}
+	for _, value := range progress {
+		point += value + 2
+	}
 
-		switch {
-		case point < 5:
-			step = 0
-		case point < 10:
-			step = 1
-		case point < 25:
-			step = 2
-		case point < 60:
-			step = 3
-		default:
-			step = 4
-		}
+	switch {
+	case point < 5:
+		step = 0
+	case point < 10:
+		step = 1
+	case point < 25:
+		step = 2
+	case point < 60:
+		step = 3
+	default:
+		step = 4
+	}
 
-		update.Step = step
-		update.Point = point
+	update.Step = step
+	update.Point = point
 
-		var milestone map[string]string
+	var milestone map[string]string
 
-		json.Unmarshal([]byte(user.Milestone), &milestone)
+	json.Unmarshal([]byte(user.Milestone), &milestone)
 
-		if _, exist := milestone[strconv.Itoa(step)]; !exist {
-			fmt.Println(strconv.Itoa(step))
-			milestone[strconv.Itoa(step)] = time.Now().String()
-		}
+	if _, exist := milestone[strconv.Itoa(step)]; !exist {
+		fmt.Println(strconv.Itoa(step))
+		milestone[strconv.Itoa(step)] = time.Now().String()
+	}
 
-		if milestone_str, err := json.Marshal(milestone); err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
-		} else {
-			update.Milestone = milestone_str
-		}
-
+	if milestone_str, err := json.Marshal(milestone); err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	} else {
+		update.Milestone = milestone_str
 	}
 
 	database.DB.Model(&user).Updates(update)
@@ -118,52 +115,53 @@ func DiscoverMission(c *gin.Context) {
 
 	var progress map[string]int
 
-	json.Unmarshal([]byte(update.Progress), &progress)
+	json.Unmarshal([]byte(user.Progress), &progress)
 
-	if update.Progress == nil {
+	if progress == nil {
 		progress = make(map[string]int)
 	}
 
 	progress[c.Param("mission")] = 0
 
-	if update.Progress != nil {
-		point := 0
-		step := 0
+	progress_json, _ := json.Marshal(progress)
+	update.Progress = progress_json
 
-		for _, value := range progress {
-			point += value + 2
-		}
+	point := 0
+	step := 0
 
-		switch {
-		case point < 5:
-			step = 0
-		case point < 10:
-			step = 1
-		case point < 25:
-			step = 2
-		case point < 60:
-			step = 3
-		default:
-			step = 4
-		}
+	for _, value := range progress {
+		point += value + 2
+	}
 
-		update.Step = step
-		update.Point = point
+	switch {
+	case point < 5:
+		step = 0
+	case point < 10:
+		step = 1
+	case point < 25:
+		step = 2
+	case point < 60:
+		step = 3
+	default:
+		step = 4
+	}
 
-		var milestone map[string]string
+	update.Step = step
+	update.Point = point
 
-		json.Unmarshal([]byte(user.Milestone), &milestone)
+	var milestone map[string]string
 
-		if _, exist := milestone[strconv.Itoa(step)]; !exist {
-			fmt.Println(strconv.Itoa(step))
-			milestone[strconv.Itoa(step)] = time.Now().String()
-		}
+	json.Unmarshal([]byte(user.Milestone), &milestone)
 
-		if milestone_str, err := json.Marshal(milestone); err != nil {
-			c.AbortWithError(http.StatusBadRequest, err)
-		} else {
-			update.Milestone = milestone_str
-		}
+	if _, exist := milestone[strconv.Itoa(step)]; !exist {
+		fmt.Println(strconv.Itoa(step))
+		milestone[strconv.Itoa(step)] = time.Now().String()
+	}
+
+	if milestone_str, err := json.Marshal(milestone); err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	} else {
+		update.Milestone = milestone_str
 	}
 
 	database.DB.Model(&user).Updates(update)
