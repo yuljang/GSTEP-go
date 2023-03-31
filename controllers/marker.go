@@ -9,6 +9,28 @@ import (
 	"gorm.io/gorm"
 )
 
+func CheckDistance(c *gin.Context) {
+	marker := models.Marker{}
+	target := models.Marker{}
+
+	if err := c.ShouldBind(&marker); err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	if err := database.DB.Where("sqrt(85*power(latitude - ?, 2) + 111*power(longitude - ?, 2)) < 0.05", marker.Latitude, marker.Longitude).First(&target).Error; err != gorm.ErrRecordNotFound {
+		if err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
+		} else {
+			c.AbortWithStatus(http.StatusInternalServerError)
+			return
+		}
+	}
+
+	c.AbortWithStatus(http.StatusOK)
+}
+
 func CreateMarker(c *gin.Context) {
 	marker := models.Marker{}
 	target := models.Marker{}

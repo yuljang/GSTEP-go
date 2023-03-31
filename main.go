@@ -24,6 +24,7 @@ func main() {
 	{
 		marker.GET("/:id", controllers.ReadMarker)
 		marker.GET("/", controllers.ReadAllMarker)
+		marker.POST("/check", controllers.CheckDistance)
 		marker.POST("/", controllers.CreateMarker)
 		marker.PUT("/:id", controllers.UpdateMarker)
 		marker.DELETE("/:id", controllers.DeleteMarker)
