@@ -120,6 +120,10 @@ func DiscoverMission(c *gin.Context) {
 
 	json.Unmarshal([]byte(update.Progress), &progress)
 
+	if update.Progress == nil {
+		progress = make(map[string]int)
+	}
+
 	progress[c.Param("mission")] = 0
 
 	if update.Progress != nil {
@@ -160,7 +164,6 @@ func DiscoverMission(c *gin.Context) {
 		} else {
 			update.Milestone = milestone_str
 		}
-
 	}
 
 	database.DB.Model(&user).Updates(update)
