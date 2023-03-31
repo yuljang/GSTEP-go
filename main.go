@@ -17,6 +17,7 @@ func main() {
 		user.GET("/:id", controllers.ReadUser)
 		user.POST("/", controllers.CreateUser)
 		user.PUT("/:id", controllers.UpdateUser)
+		user.PUT("/:id/:mission", controllers.DiscoverMission)
 		user.DELETE("/:id", controllers.DeleteUser)
 	}
 
